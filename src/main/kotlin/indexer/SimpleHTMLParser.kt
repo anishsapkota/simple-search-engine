@@ -1,5 +1,6 @@
 package com.asap.indexer
 
+import java.net.URI
 import java.net.URL
 
 class SimpleHTMLParser {
@@ -64,13 +65,13 @@ class SimpleHTMLParser {
             when {
                 url.startsWith("http") -> url
                 url.startsWith("/") -> {
-                    val base = URL(baseUrl)
+                    val base = URI(baseUrl).toURL()
                     "${base.protocol}://${base.host}${if (base.port != -1) ":${base.port}" else ""}$url"
                 }
 
                 url.startsWith("#") -> ""
                 else -> {
-                    val base = URL(baseUrl)
+                    val base = URI(baseUrl).toURL()
                     val basePath = base.path.substringBeforeLast("/")
                     "${base.protocol}://${base.host}${if (base.port != -1) ":${base.port}" else ""}$basePath/$url"
                 }
